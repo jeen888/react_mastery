@@ -10,14 +10,15 @@ let FrontComp = function(props) {
   //   liRows.push(<li key={i}>{props.propData1[i]}</li>); // 중복되지 않는 key prop 추가
   // }
   return (<>
-    <li>{props.frTitle}</li>
+    {/* <li><a href='#' onClick={()=>{props.onMyEvent();}}>{props.frTitle}</a></li> */}
+    <li><a href='/' onClick={e=>{e.preventDefault();props.onMyEvent()}}>{props.frTitle}</a></li>
     <ul>
       {liRows}
     </ul>
   </>)  
 }
 
-const BackComp = ({propData2, baTitle}) => {
+const BackComp = ({propData2, baTitle, onMyEvent}) => {
   // const liRows=[];
   // let keyCnt=0;
   // for (let row of propData2) {
@@ -29,7 +30,8 @@ const BackComp = ({propData2, baTitle}) => {
   // );
   const liRows = propData2.map((row, i) => <li key={i}>{row}</li>);
   return (<>
-    <li>{baTitle}</li>
+    <li><a href='#' onClick={e=>{e.preventDefault();onMyEvent('test')}}>{baTitle}</a></li>
+    {/* <li><a href='javascript:{onMyEvent}'>{baTitle}</a></li><!--error--> */}
     <ul>
       <li>{liRows}</li>
     </ul> 
@@ -51,9 +53,11 @@ function App() {
   //   </>
   // );
   // 1. 데이터를 구조화하여 관리 (데이터와 제목을 한 세트로 묶음)
+  const myEventHandler1 = () => alert("프론트 엔드 클릭!");
+  const myEventHandler2 = msg => alert(msg);
   const categories = [
-    { Comp: FrontComp, data: frontData, title: "프론트 엔드", propName: "propData1", titleProp: "frTitle" },
-    { Comp: BackComp, data: backData, title: "백 엔드", propName: "propData2", titleProp: "baTitle" }
+    { Comp: FrontComp, data: frontData, title: "프론트 엔드", propName: "propData1", titleProp: "frTitle", onMyEvent: myEventHandler1 },
+    { Comp: BackComp, data: backData, title: "백 엔드", propName: "propData2", titleProp: "baTitle", onMyEvent: myEventHandler2 },
   ];
 
   return (
@@ -63,10 +67,10 @@ function App() {
         {/* 2. go와 map을 사용하여 반복되는 컴포넌트 생성을 간결하게 표현 */}
         {go(
           categories,
-          map(({ Comp, data, title, propName, titleProp }) => (
+          map(({ Comp, data, title, propName, titleProp, onMyEvent }) => (
             <Comp 
               key={title} 
-              {...{ [propName]: data, [titleProp]: title }} 
+              {...{ [propName]: data, [titleProp]: title, onMyEvent }} 
             />
           ))
         )}
