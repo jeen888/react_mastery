@@ -21,8 +21,10 @@ export default function UseMemoExam() {
 
   return <>
     <h2>useMemo Exam</h2>
-    <input type='text' value={number} onChange={(e) => setNumber(e.target.value)} />
-    <p>{checkPrime ? '소수입니다.' : '소수가 아닙니다.'}</p>
-    <input type='text' placeholder='이름 입력'value={text} onChange={(e) => setText(e.target.value)} />
+    <input type='number' value={number} placeholder="소수 판단할 숫자입력"
+      onChange={e => setNumber(e.target.value)} />
+    <p>정수 {number}는 {checkPrime ? '소수 O' : '소수 X'}</p>
+    <input type='text' placeholder='이름 입력(소수 판단과 무관)' value={text} 
+      onChange={e => setText(e.target.value)} />
   </>
 }
